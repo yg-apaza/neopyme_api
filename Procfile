@@ -1,0 +1,1 @@
+web: gunicorn pymes_api.wsgi --log-file -

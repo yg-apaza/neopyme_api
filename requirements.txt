@@ -1,0 +1,12 @@
+asgiref
+Django
+django-cors-headers
+django-environ
+django-heroku
+djangorestframework
+gunicorn
+psycopg2
+psycopg2-binary
+pytz
+requests
+sqlparse
