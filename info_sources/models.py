@@ -1,8 +1,24 @@
 from django.db import models
 
+from jsonfield import JSONField
+
 
 class EntityInformation(models.Model):
+    OTHER = "0"
+    SUNAT = "1"
+    OSCE = "2"
+    SOURCE_CHOICES = [
+        (SUNAT, "Sunat"),
+        (OSCE, "Osce"),
+        (OTHER, "Otra")
+    ]
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     ruc = models.CharField("ruc", max_length=15)
+    source = models.CharField(
+        "Fuente", max_length=2, choices=SOURCE_CHOICES, blank=True)
+    link = models.CharField("Link", blank=True, max_length=255)
+    data = JSONField(blank=True)
 
     class Meta:
         verbose_name = "Información de entidad"

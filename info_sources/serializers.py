@@ -43,6 +43,12 @@ class RequestCreateSerializer(serializers.ModelSerializer):
                 "El DNI no corresponde a un representante legal")
         
 
+class RequestUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RequestedFinantialProduct
+        fields = ("annual_income", "infocorp_debt", "purpose_loan", )
+
+
 class PetitionerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Petitioner

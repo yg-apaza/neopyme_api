@@ -3,7 +3,12 @@ import requests
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import CreateModelMixin, ListModelMixin
+from rest_framework.mixins import (
+    CreateModelMixin,
+    ListModelMixin,
+    UpdateModelMixin,
+    ListModelMixin,
+)
 
 from .models import (
     EntityInformation,
@@ -23,6 +28,7 @@ from .serializers import (
     PurposeSerializer,
     InfocorpDebtSerializer,
     AnnualIncomesSerializer,
+    RequestUpdateSerializer,
 )
 from .constants import SourcesManager
 
@@ -60,9 +66,9 @@ class SunatViewSet(ModelViewSet):
 
         return Response(sunat_info)
 
-class RequestViewSet(ViewSet, CreateModelMixin):
+class RequestViewSet(ModelViewSet):
     queryset = RequestedFinantialProduct.objects.all()
-    serializer_class = None
+    serializer_class = RequestUpdateSerializer
     permission_classes = []
 
     def create(self, request):
@@ -76,7 +82,11 @@ class RequestViewSet(ViewSet, CreateModelMixin):
             data.update({"id": request.id})
             return Response(data=data, status=200)
         return Response(data=request.data, status=400)
-
+    
+    def partial_update(self, request, pk=None):
+        response = super().partial_update(request, pk)
+        print(response, response.status_code, response.data)
+        return response
 
 
 class ProductsViewSet(ModelViewSet):
