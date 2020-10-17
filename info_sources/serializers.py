@@ -1,6 +1,9 @@
+import requests
+
 from rest_framework import serializers
 
 from .models import EntityInformation, Petitioner, FinancialProduct
+from .constants import SourcesManager
 
 
 class EntityInformationModelSerializer(serializers.ModelSerializer):
@@ -11,7 +14,26 @@ class EntityInformationModelSerializer(serializers.ModelSerializer):
 class RequestCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Petitioner
-        fields = ("ruc", "document_number", "internal_client")
+        fields = ("ruc", "document_number",)
+
+    def validate(self, data):
+        ruc = data['ruc']
+        dni = data['document_number']
+        sunat_info = requests.get(SourcesManager.SUNAT_API + ruc).json()
+        legal_owners = sunat_info.get("representante_legal")
+        valid_dnis = [x for x in legal_owners.keys()]
+        valid = False
+        for valid_dni in valid_dnis:
+            if dni in valid_dni:
+                valid = True
+                break
+        print(valid_dnis)
+        if valid:
+            return data 
+        else:
+            raise serializers.ValidationError(
+                "El DNI no corresponde a un representante legal")
+        
 
 class PetitionerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,5 +59,5 @@ class ProductSerializer(serializers.ModelSerializer):
         return obj.requirements.splitlines()
     class Meta:
         model = FinancialProduct
-        feilds = (
+        fields = (
             "id", "name", "description", "benefits", "features", "requirements")

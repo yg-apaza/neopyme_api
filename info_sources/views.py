@@ -44,19 +44,19 @@ class RequestViewSet(ViewSet, CreateModelMixin):
 
     def create(self, request):
         serializer = RequestCreateSerializer(data=request.data)
-        if serializer.is_valid():
-            petitioner = Petitioner.objects.get_or_create(**request.data)
+        print('0' * 10)
+        if serializer.is_valid(raise_exception=True):
+            petitioner, _ = Petitioner.objects.get_or_create(**request.data)
             request = RequestedFinantialProduct.objects.create(
                 petitioner=petitioner)
             data = PetitionerSerializer(petitioner).data
             data.update({"id": request.id})
             return Response(data=data, status=200)
-
-        return Response(data=data, status=200)
-
+        return Response(data=request.data, status=400)
 
 
-class ProductsViewSet(ViewSet, ListModelMixin):
+
+class ProductsViewSet(ModelViewSet):
     queryset = FinancialProduct.objects.all()
     serializer_class = ProductSerializer
     permission_classes = []
