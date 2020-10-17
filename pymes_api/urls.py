@@ -22,7 +22,7 @@ from accounts.views import Logout
 
 
 api_urlpatterns = [
-    path('info-sources/', include('info_sources.urls'))
+    path('', include('info_sources.urls'))
 ]
 
 urlpatterns = [
