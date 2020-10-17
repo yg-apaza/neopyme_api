@@ -11,6 +11,8 @@ from .models import (
     FinancialProduct,
     Petitioner,
     Purpose,
+    InfocorpDebt,
+    AnnualIncomes,
     RequestedFinantialProduct,
 )
 from .serializers import (
@@ -18,8 +20,29 @@ from .serializers import (
     RequestCreateSerializer,
     PetitionerSerializer,
     ProductSerializer,
+    PurposeSerializer,
+    InfocorpDebtSerializer,
+    AnnualIncomesSerializer,
 )
 from .constants import SourcesManager
+
+
+class PurposeViewSet(ModelViewSet):
+    queryset = Purpose.objects.all()
+    serializer_class = PurposeSerializer
+    permission_classes = []
+
+
+class InfocorpDebtViewSet(ModelViewSet):
+    queryset = InfocorpDebt.objects.all()
+    serializer_class = InfocorpDebtSerializer
+    permission_classes = []
+
+
+class AnnualIncomesViewSet(ModelViewSet):
+    queryset = AnnualIncomes.objects.all()
+    serializer_class = AnnualIncomesSerializer
+    permission_classes = []
 
 
 class SunatViewSet(ModelViewSet):

@@ -2,7 +2,15 @@ import requests
 
 from rest_framework import serializers
 
-from .models import EntityInformation, Petitioner, FinancialProduct
+from .models import (
+    EntityInformation,
+    Petitioner,
+    FinancialProduct,
+    InfocorpDebt,
+    AnnualIncomes,
+    Purpose,
+    RequestedFinantialProduct,
+)
 from .constants import SourcesManager
 
 
@@ -61,3 +69,23 @@ class ProductSerializer(serializers.ModelSerializer):
         model = FinancialProduct
         fields = (
             "id", "name", "description", "benefits", "features", "requirements")
+
+
+class PurposeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Purpose
+        fields = ('id', 'text')
+
+
+class InfocorpDebtSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InfocorpDebt
+        fields = ('id', 'text')
+
+
+class AnnualIncomesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AnnualIncomes
+        fields = ('id', 'text')
+
+

@@ -48,17 +48,33 @@ class Petitioner(models.Model):
     )
     email = models.EmailField("Correo", null=True, blank=True)
     phone = models.CharField("Teléfono/Celular", max_length=31, blank=True)
-    internal_client = models.BooleanField("¿Ya es cliente?", default=False)
+    completed_register = models.BooleanField("Registro completo", default=False)
 
     class Meta:
         verbose_name = "Solicitante"
 
 
 class Purpose(models.Model):
-    name = models.CharField(max_length=63)
+    text = models.CharField(max_length=255)
 
     class Meta:
         verbose_name = "Propósito"
+
+
+class InfocorpDebt(models.Model):
+    text = models.CharField("texto", max_length=255)
+
+    class Meta:
+        verbose_name = "Deuda Infocorp"
+        verbose_name_plural = "Deudas Infocorp"
+
+
+class AnnualIncomes(models.Model):
+    text = models.CharField("texto", max_length=255)
+
+    class Meta:
+        verbose_name = "Facturación anual"
+        verbose_name_plural = "Facturaciones anuales"
 
 
 class RequestedFinantialProduct(models.Model):
@@ -79,8 +95,10 @@ class RequestedFinantialProduct(models.Model):
         "Status", max_length=1, default=CONSULTED_STATUS,
         choices=STATUS_CHOICES
     )
-    annual_income = models.PositiveIntegerField(null=True, blank=True)
-    infocorp_debt = models.PositiveIntegerField(null=True, blank=True)
+    annual_income = models.ForeignKey(
+        AnnualIncomes, null=True, blank=True, on_delete=models.CASCADE)
+    infocorp_debt = models.ForeignKey(
+        InfocorpDebt, null=True, blank=True, on_delete=models.CASCADE)
     purpose_loan = models.ForeignKey(
         Purpose, null=True, blank=True, on_delete=models.CASCADE)
 
