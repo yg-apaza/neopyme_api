@@ -22,10 +22,12 @@ class Requirement(models.Model):
 
 
 class FinancialProduct(models.Model):
-    requirements = models.ManyToManyField(Requirement)
-    title = models.CharField("Título", max_length=60)
-    alias = models.CharField("Alias", max_length=30, unique=True)
-
+    name = models.CharField("Título", max_length=60)
+    description = models.TextField(blank=True)
+    benefits = models.TextField(blank=True)
+    features = models.TextField(blank=True)
+    requirements = models.TextField(blank=True)
+    
     class Meta:
         verbose_name = "Producto financiero"
 
@@ -52,6 +54,13 @@ class Petitioner(models.Model):
         verbose_name = "Solicitante"
 
 
+class Purpose(models.Model):
+    name = models.CharField(max_length=63)
+
+    class Meta:
+        verbose_name = "Propósito"
+
+
 class RequestedFinantialProduct(models.Model):
     REJECTED_STATUS = "0"
     CONSULTED_STATUS = "1"
@@ -61,13 +70,19 @@ class RequestedFinantialProduct(models.Model):
         (PRE_APPROVED_STATUS, "Pre-aprobado"),
         (REJECTED_STATUS, "Rechazado"),
     ]
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     petitioner = models.ForeignKey(Petitioner, on_delete=models.CASCADE)
     financial_product = models.ForeignKey(
-        FinancialProduct, on_delete=models.CASCADE)
+        FinancialProduct, on_delete=models.CASCADE, null=True, blank=True)
     status = models.CharField(
         "Status", max_length=1, default=CONSULTED_STATUS,
         choices=STATUS_CHOICES
     )
+    annual_income = models.PositiveIntegerField(null=True, blank=True)
+    infocorp_debt = models.PositiveIntegerField(null=True, blank=True)
+    purpose_loan = models.ForeignKey(
+        Purpose, null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "Solicitud de Producto"
