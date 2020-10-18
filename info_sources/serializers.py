@@ -28,6 +28,7 @@ class RequestCreateSerializer(serializers.ModelSerializer):
     def validate(self, data):
         ruc = data['ruc']
         dni = data['document_number']
+        """
         sunat_info = requests.get(SourcesManager.SUNAT_API + ruc).json()
         legal_owners = sunat_info.get("representante_legal")
         if legal_owners:
@@ -39,6 +40,11 @@ class RequestCreateSerializer(serializers.ModelSerializer):
                 "El DNI no corresponde a un representante legal")
         raise serializers.ValidationError(
             "No tiene representantes legales")
+        """
+        if not ruc.startswith("20") or len(dni) != 8 or len(ruc) != 11:
+            raise serializers.ValidationError(
+                "No tiene representantes legales")
+        return data
 
 
 class RequestUpdateSerializer(serializers.ModelSerializer):
