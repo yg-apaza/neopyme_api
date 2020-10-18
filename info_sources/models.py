@@ -80,7 +80,8 @@ class Purpose(models.Model):
     text = models.CharField(max_length=255)
 
     class Meta:
-        verbose_name = "Propósito"
+        verbose_name = "Propósito de préstamo"
+        verbose_name_plural = "Propósitos de préstamo"
 
     def __str__(self):
         return "{}".format(self.text)
@@ -119,19 +120,24 @@ class RequestedFinantialProduct(models.Model):
     ]
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    petitioner = models.ForeignKey(Petitioner, on_delete=models.CASCADE)
+    petitioner = models.ForeignKey(
+        Petitioner, on_delete=models.CASCADE, verbose_name="Solicitante")
     financial_product = models.ForeignKey(
-        FinancialProduct, on_delete=models.CASCADE, null=True, blank=True)
+        FinancialProduct, on_delete=models.CASCADE,
+        verbose_name="Producto financiero", null=True, blank=True)
     status = models.CharField(
         "Status", max_length=1, default=CONSULTED_STATUS,
         choices=STATUS_CHOICES
     )
     annual_income = models.ForeignKey(
-        AnnualIncomes, null=True, blank=True, on_delete=models.CASCADE)
+        AnnualIncomes, null=True, blank=True, on_delete=models.CASCADE,
+        verbose_name="Facturación anual")
     infocorp_debt = models.ForeignKey(
-        InfocorpDebt, null=True, blank=True, on_delete=models.CASCADE)
+        InfocorpDebt, null=True, blank=True, on_delete=models.CASCADE,
+        verbose_name="Deuda Infocorp")
     purpose_loan = models.ForeignKey(
-        Purpose, null=True, blank=True, on_delete=models.CASCADE)
+        Purpose, null=True, blank=True, on_delete=models.CASCADE,
+        verbose_name="Propósito de préstamo")
 
     class Meta:
         verbose_name = "Solicitud de Producto"
