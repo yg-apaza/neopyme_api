@@ -5,6 +5,9 @@ from .models import (
     FinancialProduct,
     Petitioner,
     RequestedFinantialProduct,
+    Purpose,
+    InfocorpDebt,
+    AnnualIncomes,
 )
 
 
@@ -23,10 +26,24 @@ class FinancialProductAdmin(admin.ModelAdmin):
 
 @admin.register(Petitioner)
 class PetitionerModelAdmin(admin.ModelAdmin):
-    list_display = ("ruc", "document_number", )
+    list_display = ("ruc", "document_type", "document_number", )
 
 
 @admin.register(RequestedFinantialProduct)
 class RequestedFinantialProductModelAdmin(admin.ModelAdmin):
     list_display = ("petitioner", "financial_product", )
 
+
+@admin.register(Purpose)
+class PurposeAdmin(admin.ModelAdmin):
+    list_display = ("text", )
+
+
+@admin.register(InfocorpDebt)
+class InfocorpDebtAdmin(admin.ModelAdmin):
+    list_display = ("text", )
+
+
+@admin.register(AnnualIncomes)
+class AnnualIncomesAdmin(admin.ModelAdmin):
+    list_display = ("text", )

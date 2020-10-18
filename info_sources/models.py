@@ -44,6 +44,10 @@ class FinancialProduct(models.Model):
 
     class Meta:
         verbose_name = "Producto financiero"
+        verbose_name_plural = "Productos financieros"
+
+    def __str__(self):
+        return "{}".format(self.name)
 
 
 class Petitioner(models.Model):
@@ -68,12 +72,18 @@ class Petitioner(models.Model):
     class Meta:
         verbose_name = "Solicitante"
 
+    def __str__(self):
+        return "{} - {}".format(self.ruc, self.document_number)
+
 
 class Purpose(models.Model):
     text = models.CharField(max_length=255)
 
     class Meta:
         verbose_name = "Propósito"
+
+    def __str__(self):
+        return "{}".format(self.text)
 
 
 class InfocorpDebt(models.Model):
@@ -83,6 +93,9 @@ class InfocorpDebt(models.Model):
         verbose_name = "Deuda Infocorp"
         verbose_name_plural = "Deudas Infocorp"
 
+    def __str__(self):
+        return "{}".format(self.text)
+
 
 class AnnualIncomes(models.Model):
     text = models.CharField("texto", max_length=255)
@@ -90,6 +103,9 @@ class AnnualIncomes(models.Model):
     class Meta:
         verbose_name = "Facturación anual"
         verbose_name_plural = "Facturaciones anuales"
+
+    def __str__(self):
+        return "{}".format(self.text)
 
 
 class RequestedFinantialProduct(models.Model):
@@ -119,3 +135,7 @@ class RequestedFinantialProduct(models.Model):
 
     class Meta:
         verbose_name = "Solicitud de Producto"
+        verbose_name_plural = "Solicitudes de Producto"
+
+    def __str__(self):
+        return "{}".format(self.petitioner)
