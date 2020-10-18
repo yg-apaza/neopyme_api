@@ -1,8 +1,24 @@
 from django.db import models
 
+from jsonfield import JSONField
+
 
 class EntityInformation(models.Model):
+    OTHER = "0"
+    SUNAT = "1"
+    OSCE = "2"
+    SOURCE_CHOICES = [
+        (SUNAT, "Sunat"),
+        (OSCE, "Osce"),
+        (OTHER, "Otra")
+    ]
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     ruc = models.CharField("ruc", max_length=15)
+    source = models.CharField(
+        "Fuente", max_length=2, choices=SOURCE_CHOICES, blank=True)
+    link = models.CharField("Link", blank=True, max_length=255)
+    data = JSONField(blank=True)
 
     class Meta:
         verbose_name = "Información de entidad"
@@ -27,7 +43,7 @@ class FinancialProduct(models.Model):
     benefits = models.TextField(blank=True)
     features = models.TextField(blank=True)
     requirements = models.TextField(blank=True)
-    
+
     class Meta:
         verbose_name = "Producto financiero"
 
@@ -48,7 +64,8 @@ class Petitioner(models.Model):
     )
     email = models.EmailField("Correo", null=True, blank=True)
     phone = models.CharField("Teléfono/Celular", max_length=31, blank=True)
-    completed_register = models.BooleanField("Registro completo", default=False)
+    completed_register = models.BooleanField(
+        "Registro completo", default=False)
 
     class Meta:
         verbose_name = "Solicitante"
