@@ -1,18 +1,11 @@
 import requests
 
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet, ViewSet
-from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import (
-    CreateModelMixin,
-    ListModelMixin,
-    UpdateModelMixin,
-    ListModelMixin,
-)
+from rest_framework.viewsets import ModelViewSet
+
 
 from .models import (
     EntityInformation,
-    Requirement,
     FinancialProduct,
     Petitioner,
     Purpose,
@@ -61,10 +54,9 @@ class SunatViewSet(ModelViewSet):
         instance = self.get_object()
         ruc = instance.ruc
         sunat_info = requests.get(SourcesManager.SUNAT_API + ruc).json()
-        # serializer = self.get_serializer(instance)
-        # data = serializer.data
 
         return Response(sunat_info)
+
 
 class RequestViewSet(ModelViewSet):
     queryset = RequestedFinantialProduct.objects.all()
@@ -73,7 +65,6 @@ class RequestViewSet(ModelViewSet):
 
     def create(self, request):
         serializer = RequestCreateSerializer(data=request.data)
-        print('0' * 10)
         if serializer.is_valid(raise_exception=True):
             petitioner, _ = Petitioner.objects.get_or_create(**request.data)
             request = RequestedFinantialProduct.objects.create(
@@ -82,7 +73,7 @@ class RequestViewSet(ModelViewSet):
             data.update({"id": request.id})
             return Response(data=data, status=200)
         return Response(data=request.data, status=400)
-    
+
     def partial_update(self, request, pk=None):
         response = super().partial_update(request, pk)
         print(response, response.status_code, response.data)

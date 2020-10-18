@@ -19,6 +19,7 @@ class EntityInformationModelSerializer(serializers.ModelSerializer):
         model = EntityInformation
         fields = ("ruc", )
 
+
 class RequestCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Petitioner
@@ -37,11 +38,11 @@ class RequestCreateSerializer(serializers.ModelSerializer):
                 break
         print(valid_dnis)
         if valid:
-            return data 
+            return data
         else:
             raise serializers.ValidationError(
                 "El DNI no corresponde a un representante legal")
-        
+
 
 class RequestUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -54,15 +55,16 @@ class PetitionerSerializer(serializers.ModelSerializer):
         model = Petitioner
         fields = ("ruc", "document_number", )
 
+
 class ProductSerializer(serializers.ModelSerializer):
     description = serializers.SerializerMethodField()
     benefits = serializers.SerializerMethodField()
     features = serializers.SerializerMethodField()
     requirements = serializers.SerializerMethodField()
-    
+
     def get_description(self, obj):
         return obj.description.splitlines()
-    
+
     def get_benefits(self, obj):
         return obj.benefits.splitlines()
 
@@ -71,10 +73,13 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_requirements(self, obj):
         return obj.requirements.splitlines()
+
     class Meta:
         model = FinancialProduct
         fields = (
-            "id", "name", "description", "benefits", "features", "requirements")
+            "id", "name", "description", "benefits", "features",
+            "requirements"
+        )
 
 
 class PurposeSerializer(serializers.ModelSerializer):
@@ -93,5 +98,3 @@ class AnnualIncomesSerializer(serializers.ModelSerializer):
     class Meta:
         model = AnnualIncomes
         fields = ('id', 'text')
-
-

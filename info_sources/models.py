@@ -43,7 +43,7 @@ class FinancialProduct(models.Model):
     benefits = models.TextField(blank=True)
     features = models.TextField(blank=True)
     requirements = models.TextField(blank=True)
-    
+
     class Meta:
         verbose_name = "Producto financiero"
 
@@ -64,7 +64,8 @@ class Petitioner(models.Model):
     )
     email = models.EmailField("Correo", null=True, blank=True)
     phone = models.CharField("Teléfono/Celular", max_length=31, blank=True)
-    completed_register = models.BooleanField("Registro completo", default=False)
+    completed_register = models.BooleanField(
+        "Registro completo", default=False)
 
     class Meta:
         verbose_name = "Solicitante"
