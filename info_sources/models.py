@@ -12,8 +12,6 @@ class EntityInformation(models.Model):
         (OSCE, "Osce"),
         (OTHER, "Otra")
     ]
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
     ruc = models.CharField("ruc", max_length=15)
     source = models.CharField(
         "Fuente", max_length=2, choices=SOURCE_CHOICES, blank=True)

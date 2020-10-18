@@ -53,7 +53,7 @@ class RequestUpdateSerializer(serializers.ModelSerializer):
 class PetitionerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Petitioner
-        fields = ("ruc", "document_number", )
+        fields = ("ruc", "document_number", "completed_register", )
 
 
 class ProductSerializer(serializers.ModelSerializer):
