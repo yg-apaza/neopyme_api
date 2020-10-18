@@ -30,18 +30,13 @@ class RequestCreateSerializer(serializers.ModelSerializer):
         dni = data['document_number']
         sunat_info = requests.get(SourcesManager.SUNAT_API + ruc).json()
         legal_owners = sunat_info.get("representante_legal")
-        valid_dnis = [x for x in legal_owners.keys()]
-        valid = False
-        for valid_dni in valid_dnis:
-            if dni in valid_dni:
-                valid = True
-                break
-        print(valid_dnis)
-        if valid:
-            return data
-        else:
-            raise serializers.ValidationError(
-                "El DNI no corresponde a un representante legal")
+        if legal_owners:
+            valid_dnis = [x for x in legal_owners.keys()]
+            for valid_dni in valid_dnis:
+                if dni in valid_dni:
+                    return data
+        raise serializers.ValidationError(
+            "El DNI no corresponde a un representante legal")
 
 
 class RequestUpdateSerializer(serializers.ModelSerializer):
@@ -98,3 +93,9 @@ class AnnualIncomesSerializer(serializers.ModelSerializer):
     class Meta:
         model = AnnualIncomes
         fields = ('id', 'text')
+
+
+class PetitionerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Petitioner
+        fields = ("ruc", "document_number", )

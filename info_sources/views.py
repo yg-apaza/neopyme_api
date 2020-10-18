@@ -76,8 +76,9 @@ class RequestViewSet(ModelViewSet):
 
     def partial_update(self, request, pk=None):
         response = super().partial_update(request, pk)
-        print(response, response.status_code, response.data)
         return response
+
+    
 
 
 class ProductsViewSet(ModelViewSet):
